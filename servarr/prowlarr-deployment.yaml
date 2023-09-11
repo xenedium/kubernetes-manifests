@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    io.kompose.service: prowlarr
+  name: prowlarr
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: prowlarr
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.network/servarr-default: "true"
+        io.kompose.service: prowlarr
+    spec:
+      containers:
+        - env:
+            - name: TZ
+              value: Africa/Casablanca
+          image: lscr.io/linuxserver/prowlarr:develop
+          name: prowlarr
+          ports:
+            - containerPort: 9696
+          resources: {}
+      restartPolicy: Always
+status: {}
