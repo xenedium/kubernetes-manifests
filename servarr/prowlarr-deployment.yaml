@@ -27,5 +27,13 @@ spec:
           ports:
             - containerPort: 9696
           resources: {}
+          volumeMounts:
+            - mountPath: /config
+              name: config
+              subPath: prowlarr-config
       restartPolicy: Always
+      volumes:
+        - name: config
+          persistentVolumeClaim:
+            claimName: config
 status: {}

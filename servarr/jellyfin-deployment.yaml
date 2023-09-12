@@ -32,9 +32,15 @@ spec:
             - mountPath: /data
               name: data
               subPath: media
+            - mountPath: /config
+              name: config
+              subPath: jellyfin-config
       restartPolicy: Always
       volumes:
         - name: data
           persistentVolumeClaim:
             claimName: data
+        - name: config
+          persistentVolumeClaim:
+            claimName: config
 status: {}

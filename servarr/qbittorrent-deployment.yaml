@@ -37,9 +37,15 @@ spec:
             - mountPath: /data/torrents
               name: data
               subPath: torrents
+            - mountPath: /config
+              name: config
+              subPath: qbittorrent-config
       restartPolicy: Always
       volumes:
         - name: data
           persistentVolumeClaim:
             claimName: data
+        - name: config
+          persistentVolumeClaim:
+            claimName: config
 status: {}
