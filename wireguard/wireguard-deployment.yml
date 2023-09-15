@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wireguard
+spec:
+  selector:
+    matchLabels:
+      app: wireguard
+  template:
+    metadata:
+      labels:
+        app: wireguard
+    spec:
+      containers:
+      - name: wireguard
+        securityContext:
+          capabilities:
+              add:
+                - NET_ADMIN
+                - SYS_MODULE
+        env:
+        - name: TZ
+          value: "Africa/Casablanca"
+        - name: LOG_CONFS
+          value: "true"
+        - name: PEERS
+          value: "1"
+        - name: SERVERURL
+          value: "example.com"
+        - name: SERVERPORT
+          value: "30001"
+        image: lscr.io/linuxserver/wireguard:latest
+        ports:
+        - containerPort: 51820
+          protocol: UDP
+        volumeMounts:
+        - name: wireguard-config
+          mountPath: /config
+        - name: wireguard-modules
+          mountPath: /lib/modules
+      restartPolicy: Always
+      volumes:
+      - name: wireguard-config
+        persistentVolumeClaim:
+          claimName: wireguard-config
+      - name: wireguard-modules
+        persistentVolumeClaim:
+          claimName: wireguard-modules
